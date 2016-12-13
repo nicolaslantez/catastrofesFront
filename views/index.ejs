@@ -32,26 +32,26 @@
     </script>
     <script >
         function initMap() {
-          var json = [
-              {
-                "title": "Stockholm",
-                "lat": 59.3,
-                "lng": 18.1,
-                "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
-              },
-              {
-                "title": "Oslo",
-                "lat": 59.9,
-                "lng": 10.8,
-                "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
-              },
-              {
-                "title": "Copenhagen",
-                "lat": 55.7,
-                "lng": 12.6,
-                "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
-              }
-            ];
+          // var json = [
+          //     {
+          //       "title": "Stockholm",
+          //       "lat": 59.3,
+          //       "lng": 18.1,
+          //       "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
+          //     },
+          //     {
+          //       "title": "Oslo",
+          //       "lat": 59.9,
+          //       "lng": 10.8,
+          //       "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
+          //     },
+          //     {
+          //       "title": "Copenhagen",
+          //       "lat": 55.7,
+          //       "lng": 12.6,
+          //       "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
+          //     }
+          //   ];
             var bsas = {lat: -35, lng: -57.55};
             var map = new google.maps.Map(document.getElementById('map'), {
               zoom: 6,
@@ -65,17 +65,22 @@
             });
             marker.setMap(map)
 
-            // var centers = <%- JSON.stringify(centers) %>;
-            // for (var i = 0, length = json.length; i < length; i++) {
-            // var data = json[i],
-            // latLng = new google.maps.LatLng(data.lat, data.lng); 
+            var centers = <%- centers %>;
+            console.log(centers);
+            console.log(centers.length);
+            for (var i = 1; i < centers.length; i++) {
+            var data = centers[i];
+            var latLng = new google.maps.LatLng(data.lat, data.long); 
+            // console.log(latLng);
 
-            // // Creating a marker and putting it on the map
-            // var marker = new google.maps.Marker({
-            //     position: latLng,
-            //     title: data.description
-            //   });
-            // } 
+            // Creating a marker and putting it on the map
+            var marker2 = new google.maps.Marker({
+                position: latLng,
+                title: data.name
+              });
+            marker2.setMap(map);
+            console.log(marker2);
+            } 
 
             var infowindow = new google.maps.InfoWindow();
             var service = new google.maps.places.PlacesService(map);
@@ -90,8 +95,6 @@
                 });
                 google.maps.event.addListener(marker2, 'click', function() {
                   infowindow.setContent("<div><h3>Refugio Nº 2 La Usina</h3> \n <p>C1157ADA, Agustín R. Caffarena 1 \n</p> <p>Cantidad de refugiados: 104 </p> </div>");
-                  // infoWindow.setContent("C1157ADA, Agustín R. Caffarena 1")
-                  // infoWindow.setContent("Cantidad de refugiados: 104")
                   infowindow.open(map, this);
                 });
               }

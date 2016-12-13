@@ -19,13 +19,11 @@ app.get('/',function(req,res){
 });
 
 app.get('/index',function(req,res){
-  var centers = [];
-  for(var i = 0 ; i< 20; i++){
-      var newCenter = { nombre: "nombre " + i, direccion: "direccion " + i};
-      centers.push(newCenter);
-  }
+  request.get("http://catastrofes-back-end.herokuapp.com/centers", function(error,response,body){
+		res.render("index", {"centers" : body});
+	});
   
-  res.render("index", {"centers" : centers});
+  
   
 }); 
 
