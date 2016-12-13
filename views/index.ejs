@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es" ng-app="poiApp">
+<head>
+
+  <title>Catástrofes</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- jQuery -->
+  <script src="/libs/jquery.min.js"></script>
+
+  <!-- Bootstrap -->
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <script src="/js/bootstrap.min.js"></script>
+
+  <!-- Custom CSS -->
+  <link href="/css/main.css" rel="stylesheet">
+
+  <!-- JS-->
+  <script src="/js/main.js"> </script>
+
+</head>
+<body>
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h2 class="text-center"> Centros de Atención</h2>
+  </div>
+  <div class="panel-body">
+    <div id="map"></div>
+    <script async defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDK561CRvWsnqHXEjrU5Q_gDuTF_ajtA3o&libraries=places&callback=initMap">
+    </script>
+    <script >
+        function initMap() {
+          var json = [
+              {
+                "title": "Stockholm",
+                "lat": 59.3,
+                "lng": 18.1,
+                "description": "Stockholm is the capital and the largest city of Sweden and constitutes the most populated urban area in Scandinavia with a population of 2.1 million in the metropolitan area (2010)"
+              },
+              {
+                "title": "Oslo",
+                "lat": 59.9,
+                "lng": 10.8,
+                "description": "Oslo is a municipality, and the capital and most populous city of Norway with a metropolitan population of 1,442,318 (as of 2010)."
+              },
+              {
+                "title": "Copenhagen",
+                "lat": 55.7,
+                "lng": 12.6,
+                "description": "Copenhagen is the capital of Denmark and its most populous city, with a metropolitan population of 1,931,467 (as of 1 January 2012)."
+              }
+            ];
+            var bsas = {lat: -35, lng: -57.55};
+            var map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 6,
+              center: bsas,
+              disableDefaultUI: true,
+              zoomControl:true
+            });
+
+            var marker = new google.maps.Marker({
+              position: bsas,
+            });
+            marker.setMap(map)
+
+            // var centers = <%- JSON.stringify(centers) %>;
+            // for (var i = 0, length = json.length; i < length; i++) {
+            // var data = json[i],
+            // latLng = new google.maps.LatLng(data.lat, data.lng); 
+
+            // // Creating a marker and putting it on the map
+            // var marker = new google.maps.Marker({
+            //     position: latLng,
+            //     title: data.description
+            //   });
+            // } 
+
+            var infowindow = new google.maps.InfoWindow();
+            var service = new google.maps.places.PlacesService(map);
+
+            service.getDetails({
+            placeId: 'ChIJ793kP8c0o5UR8d1ZDbZbY-k'
+            }, function(place, status) {
+              if (status === google.maps.places.PlacesServiceStatus.OK) {
+                var marker2 = new google.maps.Marker({
+                  map: map,
+                  position: place.geometry.location
+                });
+                google.maps.event.addListener(marker2, 'click', function() {
+                  infowindow.setContent("<div><h3>Refugio Nº 2 La Usina</h3> \n <p>C1157ADA, Agustín R. Caffarena 1 \n</p> <p>Cantidad de refugiados: 104 </p> </div>");
+                  // infoWindow.setContent("C1157ADA, Agustín R. Caffarena 1")
+                  // infoWindow.setContent("Cantidad de refugiados: 104")
+                  infowindow.open(map, this);
+                });
+              }
+            });
+
+          
+        }
+        
+    </script>
+  </div>
+</div>
+
+</body>
+</html>
